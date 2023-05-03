@@ -3,7 +3,8 @@ import random, copy
 
 app = Flask(__name__)
 
-original_questions = {
+
+original_questions = { # Словарь с вопросами
     # Format is 'question':[options]
     'Taj Mahal': ['Agra', 'New Delhi', 'Mumbai', 'Chennai'],
     'Great Wall of China': ['China', 'Beijing', 'Shanghai', 'Tianjin'],
@@ -17,7 +18,8 @@ original_questions = {
 questions = copy.deepcopy(original_questions)
 
 
-def shuffle(q):
+
+def shuffle(q): # Функция, которая рандомизирует значения из словаря
     """
     This function is for shuffling
     the dictionary elements.
@@ -32,8 +34,8 @@ def shuffle(q):
     return selected_keys
 
 
-@app.route('/',  methods=['GET'])
-def quiz():
+@app.route('/', methods=['GET'])
+def quiz(): # Функция для формирования викторины, также рендерит html
     questions_shuffled = shuffle(questions)
     for i in questions.keys():
         random.shuffle(questions[i])
@@ -41,14 +43,15 @@ def quiz():
 
 
 @app.route('/quiz', methods=['POST'])
-def quiz_answers():
+def quiz_answers(): # Функция подсчёта и вывода правильных ответов
     correct = 0
     for i in questions.keys():
         answered = request.form[i]
         if original_questions[i][0] == answered:
             correct = correct + 1
-    return '<h1>Correct Answers: <u>' + str(correct) + '</u></h1>'
-
+    return f"""<h3 style="border-bottom:2px solid orangered;padding-bottom:5px; background-color: #876c99; text-align: center">
+       Correct: {str(correct)}</h3>
+    """
 
 if __name__ == '__main__':
     app.run(debug=True)

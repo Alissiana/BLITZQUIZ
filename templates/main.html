@@ -1,8 +1,9 @@
-<h1>7 Wonders of the World</h1>
+<link rel="stylesheet" href="/static/main.css">
+<h1>Quiz: 7 Wonders of the World</h1>
 <form action='/quiz' method='POST'>
     <ol>
         {% for i in q %}
-            <li>Where is <u>{{i}}</u> located?</li>
+        <li>Where is <u>{{i}}</u> located?</li>
             {% for j in o[i] %}
                 <input type='radio' value='{{j}}' name='{{i}}' />{{j}}
             {% endfor %}
